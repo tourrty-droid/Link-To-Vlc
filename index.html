@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Player - Минималистичный плеер</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Stream Player</h1>
+        <p class="subtitle">Вставьте ссылку на трансляцию</p>
+        
+        <div class="input-group">
+            <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=... или другая ссылка">
+            <button id="generateBtn">Сгенерировать плеер</button>
+        </div>
+        
+        <div id="playerContainer" class="player-container hidden">
+            <div class="player-header">
+                <span>Ваш плеер</span>
+                <button id="copyLinkBtn">📋 Копировать ссылку</button>
+            </div>
+            <div id="player"></div>
+        </div>
+        
+        <div id="generatedLink" class="generated-link hidden">
+            <p>Ссылка на плеер:</p>
+            <input type="text" id="linkOutput" readonly>
+            <button id="openPlayerBtn">Открыть в новой вкладке</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
