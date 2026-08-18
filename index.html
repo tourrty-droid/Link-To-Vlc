@@ -3,46 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор ТВ-плеера и Потока (VLC / HLS)</title>
+    <title>Link To VLC</title>
     <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0f0f11;
+            --border-color: #1f1f23;
+            --text-main: #f4f4f5;
+            --text-muted: #71717a;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem 1rem;
+            justify-content: space-between;
+            padding: 1.5rem 1rem;
+        }
+
+        .header-nav {
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn-icon {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.5rem 0.8rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            border-color: #3f3f46;
+            background-color: #18181b;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             width: 100%;
-            background-color: #1e293b;
+            background-color: var(--card-bg);
             padding: 2rem;
             border-radius: 1rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
         }
 
         h1 {
-            font-size: 1.875rem;
+            font-size: 1.75rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: #38bdf8;
             text-align: center;
         }
 
         p.subtitle {
             text-align: center;
-            color: #94a3b8;
+            color: var(--text-muted);
             margin-bottom: 2rem;
             font-size: 0.95rem;
         }
@@ -55,23 +108,23 @@
 
         input[type="text"] {
             flex: 1;
-            padding: 0.75rem 1rem;
+            padding: 0.85rem 1rem;
             border-radius: 0.5rem;
-            border: 1px solid #475569;
-            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            background-color: #000;
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
             transition: border-color 0.2s;
         }
 
         input[type="text"]:focus {
-            border-color: #38bdf8;
+            border-color: var(--accent-color);
         }
 
-        button {
-            padding: 0.75rem 1.5rem;
-            background-color: #0284c7;
+        .btn-primary {
+            padding: 0.85rem 1.5rem;
+            background-color: var(--accent-color);
             color: white;
             border: none;
             border-radius: 0.5rem;
@@ -80,14 +133,14 @@
             transition: background-color 0.2s;
         }
 
-        button:hover {
-            background-color: #0369a1;
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
         }
 
         .result-section {
             display: none;
             margin-top: 1.5rem;
-            border-top: 1px solid #334155;
+            border-top: 1px solid var(--border-color);
             padding-top: 1.5rem;
         }
 
@@ -97,9 +150,9 @@
 
         label {
             display: block;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: #cbd5e1;
+            color: var(--text-muted);
             margin-bottom: 0.5rem;
         }
 
@@ -110,23 +163,28 @@
 
         .output-box input {
             flex: 1;
-            padding: 0.6rem 0.8rem;
+            padding: 0.65rem 0.8rem;
             border-radius: 0.375rem;
-            border: 1px solid #334155;
-            background-color: #0f172a;
-            color: #38bdf8;
+            border: 1px solid var(--border-color);
+            background-color: #000;
+            color: var(--accent-color);
             font-family: monospace;
-            font-size: 0.9rem;
-        }
-
-        .output-box button {
-            padding: 0.6rem 1rem;
-            background-color: #334155;
             font-size: 0.875rem;
         }
 
+        .output-box button {
+            padding: 0.65rem 1rem;
+            background-color: var(--border-color);
+            color: var(--text-main);
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.2s;
+        }
+
         .output-box button:hover {
-            background-color: #475569;
+            background-color: #27272a;
         }
 
         .player-container {
@@ -136,7 +194,7 @@
             background-color: #000;
             border-radius: 0.5rem;
             overflow: hidden;
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
         }
 
         iframe {
@@ -147,17 +205,17 @@
 
         .instructions {
             margin-top: 2rem;
-            background-color: #0f172a;
+            background-color: #000000;
             padding: 1.25rem;
             border-radius: 0.5rem;
-            border-left: 4px solid #38bdf8;
-            font-size: 0.9rem;
+            border-left: 3px solid var(--accent-color);
+            font-size: 0.875rem;
             line-height: 1.6;
-            color: #cbd5e1;
+            color: var(--text-muted);
         }
 
         .instructions h3 {
-            color: #f8fafc;
+            color: var(--text-main);
             margin-bottom: 0.5rem;
         }
 
@@ -165,48 +223,71 @@
             padding-left: 1.25rem;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            background-color: #0369a1;
-            color: #e0f2fe;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            margin-left: 0.5rem;
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-muted);
+            min-height: 2rem;
+        }
+
+        .typing-text {
+            color: var(--accent-color);
+            font-weight: 600;
+            border-right: 2px solid var(--accent-color);
+            padding-right: 2px;
+            animation: blink 0.75s infinite;
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
         }
     </style>
 </head>
 <body>
 
+    <div class="header-nav">
+        <div class="logo">Link to VLC</div>
+        <div class="nav-controls">
+            <button class="btn-icon" id="langBtn" onclick="toggleLanguage()">🌐 RU</button>
+            <a class="btn-icon" href="https://github.com/tourrty-droid/Link-To-Vlc" target="_blank">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                GitHub
+            </a>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>Генератор ТВ-Плеера & Ссылок</h1>
-        <p class="subtitle">Преобразуйте прямую трансляцию YouTube в веб-плеер и ссылку для VLC</p>
+        <h1 id="txt-title">Генератор ТВ-Плеера & Ссылок</h1>
+        <p class="subtitle" id="txt-subtitle">Преобразуйте прямую трансляцию YouTube в плеер и поток для VLC</p>
 
         <div class="input-group">
-            <input type="text" id="ytUrl" placeholder="Вставьте ссылку на YouTube (например, https://www.youtube.com/live/XXXXX)">
-            <button onclick="generateLinks()">Сгенерировать</button>
+            <input type="text" id="ytUrl" placeholder="https://www.youtube.com/live/XXXXX">
+            <button class="btn-primary" id="btn-generate" onclick="generateLinks()">Сгенерировать</button>
         </div>
 
         <div id="resultSection" class="result-section">
             
             <div class="result-group">
-                <label>Прямая ссылка на веб-плеер (embed):</label>
+                <label id="lbl-embed">Прямая ссылка на веб-плеер (embed):</label>
                 <div class="output-box">
                     <input type="text" id="embedUrl" readonly>
-                    <button onclick="copyToClipboard('embedUrl')">Копировать</button>
+                    <button id="btn-copy1" onclick="copyToClipboard('embedUrl', this)">Копировать</button>
                 </div>
             </div>
 
             <div class="result-group">
-                <label>Ссылка на M3U8 Поток (для VLC / IPTV): <span class="badge">Invidious Proxy</span></label>
+                <label id="lbl-vlc">Ссылка на M3U8 Поток (для VLC / IPTV):</label>
                 <div class="output-box">
                     <input type="text" id="vlcUrl" readonly>
-                    <button onclick="copyToClipboard('vlcUrl')">Копировать</button>
+                    <button id="btn-copy2" onclick="copyToClipboard('vlcUrl', this)">Копировать</button>
                 </div>
             </div>
 
             <div class="result-group">
-                <label>Интерактивный плеер:</label>
+                <label id="lbl-player">Предпросмотр плеера:</label>
                 <div class="player-container">
                     <iframe id="playerIframe" allowfullscreen allow="autoplay"></iframe>
                 </div>
@@ -215,22 +296,116 @@
         </div>
 
         <div class="instructions">
-            <h3>Как использовать полученные ссылки:</h3>
+            <h3 id="txt-instr-title">Как использовать полученные ссылки:</h3>
             <ol>
-                <li><strong>Веб-плеер:</strong> Открывает чистый плеер без мусора и комментариев.</li>
-                <li><strong>Просмотр в VLC Media Player:</strong>
+                <li id="txt-instr-1"><strong>Веб-плеер:</strong> Открывает чистый плеер без мусора и комментариев.</li>
+                <li id="txt-instr-2"><strong>Просмотр в VLC Media Player:</strong>
                     <ul>
-                        <li>Откройте VLC → Нажмите <code>Ctrl + N</code> (или <i>Медиа → Открыть URL</i>).</li>
-                        <li>Вставьте ссылку на <strong>M3U8 Поток</strong> и нажмите «Воспроизвести».</li>
+                        <li id="txt-instr-3">Откройте VLC → Нажмите <code>Ctrl + N</code> (или <i>Медиа → Открыть URL</i>).</li>
+                        <li id="txt-instr-4">Вставьте ссылку на <strong>M3U8 Поток</strong> и нажмите «Воспроизвести».</li>
                     </ul>
                 </li>
             </ol>
         </div>
     </div>
 
+    <footer>
+        <span class="typing-text" id="typing"></span>
+    </footer>
+
     <script>
+        // 1. АНИМАЦИЯ ПЕЧАТАЮЩЕГОСЯ ТЕКСТА
+        const words = ["Quickly.", "Safely.", "Personally."];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById("typing");
+
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 80 : 120;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeSpeed = 2000; // Ждет 2 секунды после ввода слова
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 400;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        document.addEventListener("DOMContentLoaded", typeEffect);
+
+        // 2. ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА (RU / EN)
+        let currentLang = 'RU';
+        const i18n = {
+            RU: {
+                title: "Генератор ТВ-Плеера & Ссылок",
+                subtitle: "Преобразуйте прямую трансляцию YouTube в плеер и поток для VLC",
+                generate: "Сгенерировать",
+                embed: "Прямая ссылка на веб-плеер (embed):",
+                vlc: "Ссылка на M3U8 Поток (для VLC / IPTV):",
+                player: "Предпросмотр плеера:",
+                instrTitle: "Как использовать полученные ссылки:",
+                instr1: "Веб-плеер: Открывает чистый плеер без мусора и комментариев.",
+                instr2: "Просмотр в VLC Media Player:",
+                instr3: "Откройте VLC → Нажмите Ctrl + N (или Медиа → Открыть URL).",
+                instr4: "Вставьте ссылку на M3U8 Поток и нажмите «Воспроизвести».",
+                copy: "Копировать",
+                copied: "Скопировано!"
+            },
+            EN: {
+                title: "TV Player & Stream Link Generator",
+                subtitle: "Convert YouTube live streams into clean embed players and VLC streams",
+                generate: "Generate",
+                embed: "Direct Web Player Link (embed):",
+                vlc: "M3U8 Stream Link (for VLC / IPTV):",
+                player: "Player Preview:",
+                instrTitle: "How to use generated links:",
+                instr1: "Web Player: Opens a clean player without ads or comments.",
+                instr2: "Watching in VLC Media Player:",
+                instr3: "Open VLC → Press Ctrl + N (or Media → Open Network Stream).",
+                instr4: "Paste the M3U8 Stream link and click 'Play'.",
+                copy: "Copy",
+                copied: "Copied!"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'RU' ? 'EN' : 'RU';
+            document.getElementById('langBtn').textContent = currentLang === 'RU' ? '🌐 RU' : '🌐 EN';
+            
+            const t = i18n[currentLang];
+            document.getElementById('txt-title').textContent = t.title;
+            document.getElementById('txt-subtitle').textContent = t.subtitle;
+            document.getElementById('btn-generate').textContent = t.generate;
+            document.getElementById('lbl-embed').textContent = t.embed;
+            document.getElementById('lbl-vlc').textContent = t.vlc;
+            document.getElementById('lbl-player').textContent = t.player;
+            document.getElementById('txt-instr-title').textContent = t.instrTitle;
+            document.getElementById('txt-instr-1').innerHTML = `<strong>${t.instr1.split(':')[0]}:</strong> ${t.instr1.split(':')[1]}`;
+            document.getElementById('txt-instr-2').innerHTML = `<strong>${t.instr2}</strong>`;
+            document.getElementById('txt-instr-3').textContent = t.instr3;
+            document.getElementById('txt-instr-4').textContent = t.instr4;
+            
+            document.getElementById('btn-copy1').textContent = t.copy;
+            document.getElementById('btn-copy2').textContent = t.copy;
+        }
+
+        // 3. ПАРСИНГ ССЫЛКИ И УСТРАНЕНИЕ ERROR 153
         function extractVideoId(url) {
-            // Поддержка ссылок типа /live/, watch?v=, youtu.be, embed/ и параметров с ?si=
             const regExp = /^.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|live\/|watch\?v=|&v=)([^#&?]*).*/;
             const match = url.match(regExp);
             return (match && match[1].length === 11) ? match[1] : null;
@@ -241,11 +416,12 @@
             const videoId = extractVideoId(input);
 
             if (!videoId) {
-                alert('Пожалуйста, введите корректную ссылку на трансляцию YouTube!');
+                alert(currentLang === 'RU' ? 'Пожалуйста, введите корректную ссылку на YouTube!' : 'Please enter a valid YouTube link!');
                 return;
             }
 
-            const embed = `https://www.youtube.com/embed/${videoId}?autoplay=1&live=1`;
+            // Исправление Error 153: работа с доменом youtube-nocookie
+            const embed = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
             const vlc = `https://invidious.privacydev.net/api/v1/manifest/hls/${videoId}.m3u8`;
 
             document.getElementById('embedUrl').value = embed;
@@ -255,12 +431,16 @@
             document.getElementById('resultSection').style.display = 'block';
         }
 
-        function copyToClipboard(elementId) {
+        function copyToClipboard(elementId, btnElement) {
             const copyText = document.getElementById(elementId);
             copyText.select();
             copyText.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(copyText.value);
-            alert('Ссылка скопирована!');
+
+            btnElement.textContent = i18n[currentLang].copied;
+            setTimeout(() => {
+                btnElement.textContent = i18n[currentLang].copy;
+            }, 2000);
         }
     </script>
 </body>
