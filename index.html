@@ -183,7 +183,7 @@
         <p class="subtitle">Преобразуйте прямую трансляцию YouTube в веб-плеер и ссылку для VLC</p>
 
         <div class="input-group">
-            <input type="text" id="ytUrl" placeholder="Вставьте ссылку на YouTube (например, https://www.youtube.com/watch?v=XXXXX)">
+            <input type="text" id="ytUrl" placeholder="Вставьте ссылку на YouTube (например, https://www.youtube.com/live/XXXXX)">
             <button onclick="generateLinks()">Сгенерировать</button>
         </div>
 
@@ -220,10 +220,8 @@
                 <li><strong>Веб-плеер:</strong> Открывает чистый плеер без мусора и комментариев.</li>
                 <li><strong>Просмотр в VLC Media Player:</strong>
                     <ul>
-                        <li>Откройте VLC $
-ightarrow$ Нажмите <code>Ctrl + N</code> (или <i>Медиа $
-ightarrow$ Открыть URL</i>).</li>
-                        <li>Вставьте ссылку на **M3U8 Поток** и нажмите «Воспроизвести».</li>
+                        <li>Откройте VLC → Нажмите <code>Ctrl + N</code> (или <i>Медиа → Открыть URL</i>).</li>
+                        <li>Вставьте ссылку на <strong>M3U8 Поток</strong> и нажмите «Воспроизвести».</li>
                     </ul>
                 </li>
             </ol>
@@ -232,9 +230,10 @@ ightarrow$ Открыть URL</i>).</li>
 
     <script>
         function extractVideoId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            // Поддержка ссылок типа /live/, watch?v=, youtu.be, embed/ и параметров с ?si=
+            const regExp = /^.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|live\/|watch\?v=|&v=)([^#&?]*).*/;
             const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
+            return (match && match[1].length === 11) ? match[1] : null;
         }
 
         function generateLinks() {
@@ -246,10 +245,7 @@ ightarrow$ Открыть URL</i>).</li>
                 return;
             }
 
-            // Clean embed URL
             const embed = `https://www.youtube.com/embed/${videoId}?autoplay=1&live=1`;
-            
-            // HLS Stream link via Invidious public instance API for VLC playback
             const vlc = `https://invidious.privacydev.net/api/v1/manifest/hls/${videoId}.m3u8`;
 
             document.getElementById('embedUrl').value = embed;
