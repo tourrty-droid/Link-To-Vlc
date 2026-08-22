@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link To VLC</title>
+    <title>Link To VLC & Web Player</title>
     <style>
         :root {
             --bg-color: #050505;
@@ -260,18 +260,18 @@
     </div>
 
     <div class="container">
-        <h1 id="txt-title">Генератор ТВ-Плеера & Ссылок</h1>
-        <p class="subtitle" id="txt-subtitle">Преобразуйте прямую трансляцию YouTube в плеер и поток для VLC</p>
+        <h1 id="txt-title">Универсальный Генератор Плеера & Ссылок</h1>
+        <p class="subtitle" id="txt-subtitle">Поддерживает YouTube, Telegram, Twitch, VK, Rutube и любые прямые потоки</p>
 
         <div class="input-group">
-            <input type="text" id="ytUrl" placeholder="https://www.youtube.com/live/XXXXX">
+            <input type="text" id="streamUrl" placeholder="Вставьте ссылку (Telegram, Twitch, YouTube, VK, M3U8 и др.)">
             <button class="btn-primary" id="btn-generate" onclick="generateLinks()">Сгенерировать</button>
         </div>
 
         <div id="resultSection" class="result-section">
             
             <div class="result-group">
-                <label id="lbl-embed">Прямая ссылка на веб-плеер (embed):</label>
+                <label id="lbl-embed">Ссылка для встраивания / Веб-плеер:</label>
                 <div class="output-box">
                     <input type="text" id="embedUrl" readonly>
                     <button id="btn-copy1" onclick="copyToClipboard('embedUrl', this)">Копировать</button>
@@ -279,7 +279,7 @@
             </div>
 
             <div class="result-group">
-                <label id="lbl-vlc">Ссылка на M3U8 Поток (для VLC / IPTV):</label>
+                <label id="lbl-vlc">Ссылка для VLC / IPTV / Внешнего плеера:</label>
                 <div class="output-box">
                     <input type="text" id="vlcUrl" readonly>
                     <button id="btn-copy2" onclick="copyToClipboard('vlcUrl', this)">Копировать</button>
@@ -289,7 +289,7 @@
             <div class="result-group">
                 <label id="lbl-player">Предпросмотр плеера:</label>
                 <div class="player-container">
-                    <iframe id="playerIframe" allowfullscreen allow="autoplay"></iframe>
+                    <iframe id="playerIframe" allowfullscreen allow="autoplay; encrypted-media"></iframe>
                 </div>
             </div>
 
@@ -298,11 +298,11 @@
         <div class="instructions">
             <h3 id="txt-instr-title">Как использовать полученные ссылки:</h3>
             <ol>
-                <li id="txt-instr-1"><strong>Веб-плеер:</strong> Открывает чистый плеер без мусора и комментариев.</li>
+                <li id="txt-instr-1"><strong>Веб-плеер:</strong> Чистый плеер для встраивания на сайт или просмотра без лишних интерфейсов.</li>
                 <li id="txt-instr-2"><strong>Просмотр в VLC Media Player:</strong>
                     <ul>
                         <li id="txt-instr-3">Откройте VLC → Нажмите <code>Ctrl + N</code> (или <i>Медиа → Открыть URL</i>).</li>
-                        <li id="txt-instr-4">Вставьте ссылку на <strong>M3U8 Поток</strong> и нажмите «Воспроизвести».</li>
+                        <li id="txt-instr-4">Вставьте ссылку для VLC и нажмите «Воспроизвести».</li>
                     </ul>
                 </li>
             </ol>
@@ -315,7 +315,7 @@
 
     <script>
         // 1. АНИМАЦИЯ ПЕЧАТАЮЩЕГОСЯ ТЕКСТА
-        const words = ["Quickly.", "Safely.", "Personally."];
+        const words = ["Quickly.", "Safely.", "Universal."];
         let wordIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -335,7 +335,7 @@
             let typeSpeed = isDeleting ? 80 : 120;
 
             if (!isDeleting && charIndex === currentWord.length) {
-                typeSpeed = 2000; // Ждет 2 секунды после ввода слова
+                typeSpeed = 2000;
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
@@ -352,34 +352,38 @@
         let currentLang = 'RU';
         const i18n = {
             RU: {
-                title: "Генератор ТВ-Плеера & Ссылок",
-                subtitle: "Преобразуйте прямую трансляцию YouTube в плеер и поток для VLC",
+                title: "Универсальный Генератор Плеера & Ссылок",
+                subtitle: "Поддерживает YouTube, Telegram, Twitch, VK, Rutube и любые прямые потоки",
                 generate: "Сгенерировать",
-                embed: "Прямая ссылка на веб-плеер (embed):",
-                vlc: "Ссылка на M3U8 Поток (для VLC / IPTV):",
+                embed: "Ссылка для встраивания / Веб-плеер:",
+                vlc: "Ссылка для VLC / IPTV / Внешнего плеера:",
                 player: "Предпросмотр плеера:",
                 instrTitle: "Как использовать полученные ссылки:",
-                instr1: "Веб-плеер: Открывает чистый плеер без мусора и комментариев.",
+                instr1: "Веб-плеер: Чистый плеер для встраивания или просмотра без рекламы и чатов.",
                 instr2: "Просмотр в VLC Media Player:",
                 instr3: "Откройте VLC → Нажмите Ctrl + N (или Медиа → Открыть URL).",
-                instr4: "Вставьте ссылку на M3U8 Поток и нажмите «Воспроизвести».",
+                instr4: "Вставьте ссылку для VLC и нажмите «Воспроизвести».",
                 copy: "Копировать",
-                copied: "Скопировано!"
+                copied: "Скопировано!",
+                placeholder: "Вставьте ссылку (Telegram, Twitch, YouTube, VK, M3U8 и др.)",
+                alertEmpty: "Пожалуйста, введите URL-адрес!"
             },
             EN: {
-                title: "TV Player & Stream Link Generator",
-                subtitle: "Convert YouTube live streams into clean embed players and VLC streams",
+                title: "Universal Stream Player & Link Generator",
+                subtitle: "Supports YouTube, Telegram, Twitch, VK, Rutube, and direct streams",
                 generate: "Generate",
-                embed: "Direct Web Player Link (embed):",
-                vlc: "M3U8 Stream Link (for VLC / IPTV):",
+                embed: "Embed / Web Player Link:",
+                vlc: "VLC / IPTV Stream Link:",
                 player: "Player Preview:",
                 instrTitle: "How to use generated links:",
-                instr1: "Web Player: Opens a clean player without ads or comments.",
+                instr1: "Web Player: A clean embedded player without distractions or chat.",
                 instr2: "Watching in VLC Media Player:",
                 instr3: "Open VLC → Press Ctrl + N (or Media → Open Network Stream).",
-                instr4: "Paste the M3U8 Stream link and click 'Play'.",
+                instr4: "Paste the VLC link and click 'Play'.",
                 copy: "Copy",
-                copied: "Copied!"
+                copied: "Copied!",
+                placeholder: "Enter URL (Telegram, Twitch, YouTube, VK, M3U8, etc.)",
+                alertEmpty: "Please enter a valid URL!"
             }
         };
 
@@ -399,34 +403,99 @@
             document.getElementById('txt-instr-2').innerHTML = `<strong>${t.instr2}</strong>`;
             document.getElementById('txt-instr-3').textContent = t.instr3;
             document.getElementById('txt-instr-4').textContent = t.instr4;
+            document.getElementById('streamUrl').placeholder = t.placeholder;
             
             document.getElementById('btn-copy1').textContent = t.copy;
             document.getElementById('btn-copy2').textContent = t.copy;
         }
 
-        // 3. ПАРСИНГ ССЫЛКИ И УСТРАНЕНИЕ ERROR 153
-        function extractVideoId(url) {
-            const regExp = /^.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|live\/|watch\?v=|&v=)([^#&?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[1].length === 11) ? match[1] : null;
+        // 3. УНИВЕРСАЛЬНЫЙ ПАРСИНГ ВСЕХ ТИПОВ ССЫЛОК
+        function parseStreamUrl(rawUrl) {
+            let url = rawUrl.trim();
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            let embedUrl = url;
+            let vlcUrl = url;
+
+            // А. ПРЯМЫЕ ПОТОКИ (m3u8, mp4, m3u и т.д.)
+            if (/\.(m3u8|mp4|m3u|mpd|mkv)($|\?)/i.test(url)) {
+                return { embedUrl: url, vlcUrl: url };
+            }
+
+            // Б. TELEGRAM ССЫЛКИ ПОСТОВ/ВИДЖЕТОВ (например: https://t.me/channel/123)
+            if (url.includes('t.me/')) {
+                const match = url.match(/t\.me\/([\w_]+)\/(\d+)/);
+                if (match) {
+                    const channel = match[1];
+                    const postId = match[2];
+                    embedUrl = `https://t.me/${channel}/${postId}?embed=1&mode=tme`;
+                    vlcUrl = `https://t.me/${channel}/${postId}`;
+                }
+                return { embedUrl, vlcUrl };
+            }
+
+            // В. YOUTUBE (Live / Video / Short)
+            const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|live\/))([\w-]{11})/);
+            if (ytMatch) {
+                const videoId = ytMatch[1];
+                embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+                vlcUrl = `https://invidious.privacydev.net/api/v1/manifest/hls/${videoId}.m3u8`;
+                return { embedUrl, vlcUrl };
+            }
+
+            // Г. TWITCH (Каналы или Клипы)
+            if (url.includes('twitch.tv/')) {
+                const channelMatch = url.match(/twitch\.tv\/([\w_]+)/);
+                if (channelMatch) {
+                    const channel = channelMatch[1];
+                    const parentDomain = window.location.hostname || "localhost";
+                    embedUrl = `https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}&autoplay=true`;
+                    vlcUrl = `https://twitch.tv/${channel}`;
+                }
+                return { embedUrl, vlcUrl };
+            }
+
+            // Д. RUTUBE
+            if (url.includes('rutube.ru/')) {
+                const rutubeMatch = url.match(/rutube\.ru\/video\/([\w]+)/);
+                if (rutubeMatch) {
+                    const videoId = rutubeMatch[1];
+                    embedUrl = `https://rutube.ru/play/embed/${videoId}/`;
+                    vlcUrl = url;
+                }
+                return { embedUrl, vlcUrl };
+            }
+
+            // Е. VK Видео / VK Стримы
+            if (url.includes('vk.com/') || url.includes('vkvideo.ru/')) {
+                const vkMatch = url.match(/video(-?\d+_\d+)/);
+                if (vkMatch) {
+                    const videoId = vkMatch[1];
+                    const parts = videoId.split('_');
+                    embedUrl = `https://vk.com/video_ext.php?oid=${parts[0]}&id=${parts[1]}&hash=&hd=2`;
+                }
+                return { embedUrl, vlcUrl: url };
+            }
+
+            // Ж. ЛЮБЫЕ ДРУГИЕ САЙТЫ И СТРИМЫ (Фолбэк)
+            return { embedUrl: url, vlcUrl: url };
         }
 
         function generateLinks() {
-            const input = document.getElementById('ytUrl').value.trim();
-            const videoId = extractVideoId(input);
+            const input = document.getElementById('streamUrl').value.trim();
 
-            if (!videoId) {
-                alert(currentLang === 'RU' ? 'Пожалуйста, введите корректную ссылку на YouTube!' : 'Please enter a valid YouTube link!');
+            if (!input) {
+                alert(i18n[currentLang].alertEmpty);
                 return;
             }
 
-            // Исправление Error 153: работа с доменом youtube-nocookie
-            const embed = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
-            const vlc = `https://invidious.privacydev.net/api/v1/manifest/hls/${videoId}.m3u8`;
+            const { embedUrl, vlcUrl } = parseStreamUrl(input);
 
-            document.getElementById('embedUrl').value = embed;
-            document.getElementById('vlcUrl').value = vlc;
-            document.getElementById('playerIframe').src = embed;
+            document.getElementById('embedUrl').value = embedUrl;
+            document.getElementById('vlcUrl').value = vlcUrl;
+            document.getElementById('playerIframe').src = embedUrl;
 
             document.getElementById('resultSection').style.display = 'block';
         }
